@@ -1,7 +1,7 @@
 # **Scope Report: Machine Learning Classification of Stars, Quasars, and Galaxies Using SDSS Data**
 
 ## **1. Project Overview**
-This project aims to develop a machine learning model that accurately classifies stars, quasars, and galaxies using data from the Sloan Digital Sky Survey (SDSS). By leveraging classification algorithms and data visualization techniques, we seek to identify key distinguishing features of these celestial objects, contributing to astrophysical research and enhancing automated classification methods.
+This project aims to develop a machine learning model that accurately classifies stars, quasars, and galaxies using data from the Sloan Digital Sky Survey (SDSS). By leveraging linear regression algorithms and data visualization techniques, we seek to identify key distinguishing features of these celestial objects, contributing to astrophysical research and enhancing automated classification methods.
 
 ## **2. Research Objectives**
 - Develop a machine learning model for classifying celestial objects.
@@ -12,7 +12,7 @@ This project aims to develop a machine learning model that accurately classifies
 ## **3. Data Acquisition and Features**
 - **Source**: Sloan Digital Sky Survey (SDSS)
 - **Key Features**:
-  - Photometric magnitudes across five bands (u, g, r, i, z)
+  - Photometric magnitudes across five telescopic bands (u, g, r, i, z)
   - Spectral features, including emission line characteristics
   - Redshift (z), providing distance measurements
   - Flux measurements across various wavelengths
@@ -35,8 +35,7 @@ This project aims to develop a machine learning model that accurately classifies
 2. How does the redshift distribution vary among these objects, and what does it reveal about their nature?
 3. Which spectral characteristics contribute most to accurate classification?
 4. Are there spatial clustering patterns in the distribution of these objects?
-5. What emission lines provide the strongest indicators for classification?
-6. How does classification accuracy change with different feature selection techniques?
+5. How does classification accuracy change with different feature selection techniques?
 
 ## **7. Challenges and Solutions**
 - **Class Imbalance**: Addressed using resampling techniques like SMOTE to balance dataset representation.
