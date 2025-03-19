@@ -19,11 +19,11 @@ This project aims to develop a machine learning model that accurately classifies
   - Right Ascension (RA) and Declination (Dec) for spatial distribution analysis
 
 ## **4. Methodology**
-- **Data Preprocessing**: Cleaning, normalization, and handling of missing values.
+- **Data Preprocessing**: Cleaning, normalization, and removing columns that did not add value to differentitating celestial objects.
 - **Exploratory Data Analysis (EDA)**: Identifying patterns and relationships using statistical tools and visualizations.
-- **Model Selection and Training**: Evaluating algorithms such as Random Forest, XGBoost, Convolutional Neural Networks (CNNs), and Support Vector Machines (SVM).
+- **Model Selection and Training**: Evaluating algorithms such as Random Forest, Linear Regression, Gradient Boosting Model, and Support Vector Machines (SVM).
 - **Evaluation Metrics**: Measuring accuracy, precision, recall, F1-score, and ROC curves.
-- **Visualization**: Creating interactive dashboards in Tableau to highlight key trends and insights.
+- **Visualization**: Creating visualization using analysis from code and tableau.
 
 ## **5. Expected Outcomes**
 - A machine learning model capable of effectively classifying celestial objects.
@@ -44,10 +44,10 @@ This project aims to develop a machine learning model that accurately classifies
 - **Visualization Clarity**: Enhanced by designing intuitive and interactive Tableau dashboards.
 
 ## **8. Tools and Technologies**
-- **Machine Learning**: Scikit-learn, TensorFlow, PyTorch, XGBoost
-- **Data Processing**: Pandas, NumPy, SciPy
-- **Visualization**: Tableau, Matplotlib, Seaborn, Plotly
-- **Data Source**: SDSS photometric and spectroscopic datasets
+- **Machine Learning**: 
+- **Data Processing**: 
+- **Visualization**: 
+- **Data Source**: SDSS dataset
 
 ## **9. Conclusion**
 This project integrates machine learning with astrophysical research to improve the classification of celestial objects. By identifying key distinguishing features and leveraging data visualization tools, we aim to enhance the accuracy of automated classification methods, ultimately contributing to future advancements in astronomical research and discovery.
