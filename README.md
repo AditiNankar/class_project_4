@@ -1,4 +1,4 @@
-# **Scope Report: Machine Learning Classification of Stars, Quasars, and Galaxies Using SDSS Data**
+# **Machine Learning Classification of Stars, Quasars, and Galaxies**
 
 ## **1. Project Overview**
 This project aims to develop a machine learning model that accurately classifies **stars, quasars, and galaxies** using data from the **Sloan Digital Sky Survey (SDSS)**. By leveraging machine learning algorithms and data visualization techniques, we seek to identify key distinguishing features of these celestial objects. This contributes to astrophysical research and enhances automated classification methods.
