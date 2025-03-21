@@ -3,21 +3,23 @@
 ## **1. Project Overview**
 This project aims to develop a machine learning model that accurately classifies **stars, quasars, and galaxies** using data from the **Sloan Digital Sky Survey (SDSS)**. By leveraging machine learning algorithms and data visualization techniques, we seek to identify key distinguishing features of these celestial objects. This contributes to astrophysical research and enhances automated classification methods.
 
-Please follow steps to create sql database if you want to run the model.
+Please follow steps to create SQL database if you want to run the model.
 
 ## **2. Database Creation and Management**
 ### **Setting Up PostgreSQL Database**
-1. Install **pgAdmin** or **PostgreSQL**.
-2. Create a new database named **"StarsGalaxiesQuasars"**.
-3. Open `schema.sql` in a query tab and execute it to create tables.
-4. Import the dataset into `classification` and `observation` tables.
-5. The database is now ready for machine learning model integration.
+1. Open **pgAdmin** and create a new database called **"StarsGalaxiesQuasars"**
+2. Use the Query Tool to open `schema.sql` (from Resources) and run the script
+3. Refresh Tables and select Import/Export option for `classification` table, import the file 'classification_sky_server.csv' (from Resources)
+4. Select Import/Export option for `observation` table, import the file 'observation_sky_server.csv' (from Resources)
+5. Open 'ML pipeline final.ipynb' and change Postgres password credentials
+6. Run all cells in 'ML pipeline final.ipynb'
 
 ### **Database Connection**
 - The code connects to a **PostgreSQL database** using **SQLAlchemy**.
 - Data is retrieved by joining two tables:
   - **Observation**: Contains brightness measurements across five wavelengths (u, g, r, i, z).
   - **Classification**: Contains the object class (**STAR, GALAXY, or QSO**).
+
 
 ## **3. Data Acquisition and Features**
 ### **Data Source**
@@ -31,72 +33,56 @@ Please follow steps to create sql database if you want to run the model.
 
 ## **4. Methodology**
 ### **Data Preprocessing**
-- Removing unnecessary columns (e.g., observation ID, object ID, metadata)
+- Removing unnecessary columns (e.g., observation ID, object ID)
 - Encoding target variable (**STAR → 0, GALAXY → 1, QSO → 2**)
 - Splitting dataset into **training (80%) and testing (20%)** sets
-- Normalizing brightness values using **StandardScaler**
+- Normalizing values using **StandardScaler**
 
-### **Machine Learning Models Used**
+### **Main Machine Learning Model Used**
+| Model | Accuracy |
+|----------------------|---------|
+| **Gradient Boosting (GB)** | 88% (before tuning) |
+| **Gradient Boosting (GB)** | 94% (after tuning) |
+
+### **Other Machine Learning Models Used**
 | Model | Accuracy |
 |----------------------|---------|
 | **Random Forest (RF)** | 94% |
-| **Gradient Boosting (GB)** | 94% (after tuning) |
-| **Logistic Regression (LR)** | 93.5% |
-| **Support Vector Machine (SVM)** | **95.7% (Best Model)** |
+| **Logistic Regression (LR)** | 94% |
+| **Support Vector Machine (SVM)** | 94% |
 
-### **Model Insights**
-#### **Random Forest (RF)**
-- A bagging ensemble model that trains multiple decision trees and averages their outputs.
-- **Findings**:
-  - Achieved **94% accuracy**.
-  - Most important feature: **z-band (Infrared brightness)**.
-  - Least important feature: **u-band (Ultraviolet brightness)**.
-
+### **Gradient Boosting Model Insights**
 #### **Gradient Boosting (GB)**
-- A boosting model that builds trees sequentially, improving the errors of the previous trees.
-- **Findings**:
-  - Initial accuracy: **88%**.
-  - After **hyperparameter tuning**, accuracy improved to **94%**.
+After testing multiple models, Gradient Boosting was chosen due to its balance of accuracy and interpretability. Hyperparameter tuning using `RandomizedSearchCV` improved its accuracy from 88% to 94%
 
-#### **Logistic Regression (LR)**
-- A simple, fast linear model for classification.
-- **Findings**:
-  - Accuracy: **93.5%**.
-  - Nearly as effective as complex models but computationally efficient.
+### **Hyperparameter Tuning**
 
-#### **Support Vector Machine (SVM)**
-- A classifier that finds the optimal boundary for separating classes.
-- Used **SGDClassifier** for fast training and **SVC** for hyperparameter tuning.
-- **Findings**:
-  - Initial accuracy: **93.85%**.
-  - After **hyperparameter tuning** (`C=10, kernel=rbf`), accuracy improved to **95.7%** (best-performing model).
-
-### **Hyperparameter Tuning & Cross-Validation**
-- **Why?** Improves model performance by optimizing parameter selection.
-- **How?** Used **RandomizedSearchCV** to search for best hyperparameters.
-- **Best Parameters Found:**
-  - **Gradient Boosting**: `n_estimators=300, learning_rate=0.2, max_depth=7` → 94% accuracy
-  - **SVM**: `C=10, kernel=rbf` → **95.7% accuracy**
-- **5-Fold Cross-Validation** applied for model robustness.
+- Used `RandomizedSearchCV` instead of `GridSearchCV` for efficiency
+- Optimized `n_estimators`, `learning_rate`, `max_depth`, `min_samples_split`, and `min_samples_leaf`
+- Achieved **6% improvement** in model accuracy
 
 ### **Exploratory Data Analysis (EDA) & Visualization**
-- **Matplotlib & Seaborn** for data trends and distribution insights.
-- **PCA for Dimensionality Reduction** (used for visualization, not model training).
-- **Tableau Dashboards** for interactive classification analysis.
 
-## **5. Key Questions for Tableau Analysis**
-1. What photometric features best distinguish between stars, quasars, and galaxies?
-2. How does redshift distribution vary among these celestial objects?
-3. Which spectral characteristics contribute most to accurate classification?
-4. Are there spatial clustering patterns in their distribution?
-5. How does classification accuracy change with different feature selection techniques?
+- **Class Distribution:** Count plots showed an imbalance in class distribution
+- **Feature Importance:** Z (Infrared) had the highest predictive power, likely due to its ability to detect distant objects
+- **Confusion Matrix:** Most misclassifications occurred between Quasars and Galaxies, suggesting spectral similarities
+- **3D Scatter Plot:** Visualized relationships between RA, DEC, and Redshift
+
+## **Additional Experimentation with PCA**
+
+To optimize performance further, we explored **Principal Component Analysis (PCA)**:
+
+- **Advantages Considered:** Computational efficiency, overfitting prevention, and better visualization potential
+- **Findings:** PCA reduced dimensionality but significantly lowered classification accuracy by **20%**
+- **Conclusion:** PCA was not suitable for improving our dataset’s classification performance
 
 ## **6. Challenges and Solutions**
 | Challenge | Solution |
 |----------------------|---------|
-| **Class Imbalance** | Applied **SMOTE** (Synthetic Minority Over-sampling) to balance dataset. |
+| **Class Imbalance** | Applied **SMOTE** to balance dataset. |
+| **Overfitting concerns** | Regularized model and applied cross-validation. |
 | **Feature Selection** | Removed redundant features and applied PCA for efficiency. |
-| **Hyperparameter Tuning** | Used **Grid Search & Randomized Search CV** for optimal results. |
+| **Hyperparameter Tuning** | Used **Randomized Search CV** for optimal results. |
 | **Data Quality Issues** | Performed extensive **data cleaning and normalization**. |
 
 ## **7. Expected Outcomes**
@@ -107,14 +93,11 @@ Please follow steps to create sql database if you want to run the model.
 ## **8. Tools and Technologies**
 - **Machine Learning**: Scikit-learn
 - **Data Processing**: Pandas, NumPy, PostgreSQL
-- **Visualization**: Matplotlib, Seaborn, Tableau
+- **Visualization**: Matplotlib, Seaborn
 - **Database**: PostgreSQL with pgAdmin
-- **Data Source**: Sloan Digital Sky Survey (SDSS)
 
 ## **9. Conclusion**
 This project integrates machine learning with astrophysical research to improve the classification of celestial objects. By identifying key distinguishing features and leveraging data visualization tools, we enhance the accuracy of automated classification methods. The findings can contribute to **astronomical research, automated object detection, and space exploration advancements**.
 
-### **Final Recommendation**
-- Use **SVM with RBF Kernel** for the best classification performance.
-- Consider additional **feature engineering** (e.g., incorporating object size, shape, or additional spectral properties).
+Using the Gradient Boosting Classifier, we successfully developed a machine learning model that classifies **stars, galaxies, and quasars** with high accuracy. Our approach combined **database management, data preprocessing, model evaluation, and hyperparameter tuning** to maximize performance. While PCA was explored for dimensionality reduction, it did not improve classification accuracy. Our findings contribute to the field of astrophysics by demonstrating the effectiveness of machine learning in automated object classification.
 
